@@ -1,6 +1,15 @@
 {
   "references": [
     {
+      "path": "packages/@ts-terraform/config-eslint"
+    },
+    {
+      "path": "packages/@ts-terraform/config-prettier"
+    },
+    {
+      "path": "packages/@ts-terraform/provider"
+    },
+    {
       "path": "packages/ts-terraform"
     }
   ],
