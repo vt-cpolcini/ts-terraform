@@ -1,6 +1,6 @@
 {
   "name": "@ts-terraform/config-prettier",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@ts-terraform/config-typescript": "^0.0.1",
+    "@ts-terraform/config-typescript": "^0.0.2",
     "@types/node": "^12",
     "@types/prettier": "^2.0.1",
     "typescript": "^3.9.3"
