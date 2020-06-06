@@ -1,0 +1,15 @@
+{
+  "name": "@ts-terraform/config-typescript",
+  "version": "0.0.1",
+  "license": "MIT",
+  "files": [
+    "tsconfig.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "funding": {
+    "type": "GitHub",
+    "url": "https://github.com/sponsors/jacobwgillespie"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "@ts-terraform/provider",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "generated",
+    "tfplugin5.proto"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "generate": "./generate-client.sh",
+    "watch": "tsc -b -w"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.0.4",
+    "execa": "^4.0.2",
+    "google-auth-library": "^6.0.1",
+    "msgpack": "^1.0.3",
+    "protobufjs": "^6.9.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@ts-terraform/config-typescript": "^0.0.1",
+    "@types/msgpack": "^0.0.30",
+    "@types/node": "^12",
+    "typescript": "^3.9.3"
+  },
+  "funding": {
+    "type": "GitHub",
+    "url": "https://github.com/sponsors/jacobwgillespie"
+  }
+}

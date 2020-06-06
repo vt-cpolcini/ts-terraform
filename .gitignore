@@ -1,0 +1,6 @@
+*.log
+*.tsbuildinfo
+dist
+node_modules
+tmp
+wget-log*
