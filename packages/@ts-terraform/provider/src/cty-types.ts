@@ -1,5 +1,5 @@
 import msgpack from 'msgpack'
-import {inspect, TextDecoder} from 'util'
+import {inspect, TextDecoder, TextEncoder} from 'util'
 import {tfplugin5} from '../generated/client'
 import {
   ArrayType,
@@ -13,6 +13,9 @@ import {
   StringType,
   T,
 } from './type-system'
+
+const decoder = new TextDecoder()
+const encoder = new TextEncoder()
 
 export type CtyTypeSchema =
   | 'any'
@@ -49,7 +52,6 @@ type CtyToSchemaType<T extends CtyTypeSchema> = T extends 'bool'
     : never
   : never
 
-const decoder = new TextDecoder()
 export function decodeCtyType(input: Uint8Array): SchemaType {
   const typeMeta = JSON.parse(decoder.decode(input)) as CtyTypeSchema
   return ctyToType(typeMeta) as SchemaType
@@ -112,6 +114,23 @@ export function fromDynamic<T = unknown>(value: tfplugin5.IDynamicValue | null |
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return msgpack.unpack(value.msgpack)
+}
+
+export function toRawState(value: unknown): tfplugin5.IRawState {
+  return {json: encoder.encode(JSON.stringify(value))}
+}
+
+export function fromRawState<T = unknown>(value: tfplugin5.IRawState | null | undefined): T | null | undefined {
+  if (!value) {
+    return value
+  }
+
+  if (!value.json) {
+    return value.json
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return JSON.parse(decoder.decode(value.json))
 }
 
 export function optionalsToNulls(value: object, schema: ObjectType<ObjectProperties>): Record<string, unknown> {
