@@ -1,17 +1,18 @@
 import React from 'react'
 import {graphql} from 'gatsby'
+import {MDXRenderer} from 'gatsby-plugin-mdx'
 
 export default function Changelog({data}) {
-  const {markdownRemark} = data
-  const {html} = markdownRemark
+  const {mdx} = data
+  const {body} = mdx
 
-  return <div dangerouslySetInnerHTML={{__html: html}} />
+  return <MDXRenderer>{body}</MDXRenderer>
 }
 
 export const pageQuery = graphql`
   query {
-    markdownRemark(parent: {id: {eq: "changelog"}}) {
-      html
+    mdx(parent: {id: {eq: "changelog"}}) {
+      body
     }
   }
 `
