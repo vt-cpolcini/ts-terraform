@@ -9,9 +9,9 @@
 You can either install `ts-terraform`, which contains and re-exports all other modules, or just install the modules you are interested in:
 
 ```terminal
-$ yarn install ts-terraform
+$ yarn add ts-terraform
 
-$ yarn install @ts-terraform/provider
+$ yarn add @ts-terraform/provider
 ```
 
 ## Packages
