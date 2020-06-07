@@ -1,7 +1,7 @@
 // @ts-check
 
 const remarkPlugins = [
-  {resolve: 'gatsby-remark-autolink-headers', options: {elements: ['h2', 'h3', 'h4', 'h5']}},
+  {resolve: 'gatsby-remark-autolink-headers', options: {icon: false}},
   {resolve: 'gatsby-remark-shiki-twoslash', options: {theme: __dirname + '/src/dark-theme.json'}},
 ]
 
