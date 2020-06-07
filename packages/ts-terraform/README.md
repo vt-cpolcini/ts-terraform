@@ -1,3 +1,5 @@
+<p align="center"><img src="https://ts-terraform.dev/logo.png" alt="ts-terraform logo" /></p>
+
 # ts-terraform
 
 **Status:** Alpha
