@@ -24,7 +24,6 @@
   },
   "workspaces": [
     "packages/*",
-    "packages/@ts-terraform/*",
-    "website"
+    "packages/@ts-terraform/*"
   ]
 }
