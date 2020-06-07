@@ -1,6 +1,6 @@
 {
   "name": "@ts-terraform/config-eslint",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -25,7 +25,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@ts-terraform/config-typescript": "^0.0.2",
+    "@ts-terraform/config-typescript": "^0.1.0",
     "@types/eslint": "6.8.1",
     "@types/node": "^12",
     "typescript": "^3.9.3"
