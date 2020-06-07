@@ -12,9 +12,7 @@ const remarkPlugins = [
 module.exports = {
   siteMetadata: {
     title: 'ts-terraform',
-    description:
-      'Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.',
-    author: '@gatsbyjs',
+    author: '@jacobwgillespie',
   },
   plugins: [
     'gatsby-plugin-theme-ui',
