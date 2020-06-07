@@ -46,12 +46,12 @@ module.exports = {
     //   },
     // },
 
-    {
-      resolve: 'gatsby-transformer-remark',
-      options: {
-        plugins: remarkPlugins,
-      },
-    },
+    // {
+    //   resolve: 'gatsby-transformer-remark',
+    //   options: {
+    //     plugins: remarkPlugins,
+    //   },
+    // },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // 'gatsby-plugin-offline',

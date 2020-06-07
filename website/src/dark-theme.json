@@ -449,7 +449,7 @@
     },
     {
       "//": "Added as a fallback",
-      "scope": ["meta", "punctuation"],
+      "scope": ["meta", "punctuation", "source"],
       "settings": {
         "foreground": "#d1d5da"
       }

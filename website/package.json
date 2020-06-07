@@ -24,6 +24,7 @@
     "gatsby-source-filesystem": "^2.3.10",
     "gatsby-transformer-remark": "^2.8.14",
     "gatsby-transformer-sharp": "^2.5.3",
+    "globby": "^11.0.1",
     "oniguruma": "^7.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

@@ -8,7 +8,7 @@
 
 You can either install `ts-terraform`, which contains and re-exports all other modules, or just install the modules you are interested in:
 
-```terminal
+```shell
 $ yarn add ts-terraform
 
 $ yarn add @ts-terraform/provider
@@ -18,3 +18,14 @@ $ yarn add @ts-terraform/provider
 
 - `ts-terraform` - root package that contains all other packages
 - `@ts-terraform/provider` - Terraform Provider gRPC client
+
+## Development
+
+To prepare this repository for development:
+
+```bash
+$ yarn install
+$ yarn build
+$ yarn lint
+$ yarn watch
+```
