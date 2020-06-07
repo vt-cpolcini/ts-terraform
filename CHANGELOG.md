@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0 - 2020-06-07
+
+- New documentation site, NPM module metadata (descriptions, links, keywords)
+
 ## v0.1.0 - 2020-06-07
 
 - Implement all methods on `Provider` class for full coverage of provider gRPC interface
