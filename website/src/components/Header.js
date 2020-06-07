@@ -1,8 +1,7 @@
 /** @jsx jsx */
 import {Link} from 'gatsby'
-import {Flex, jsx, NavLink} from 'theme-ui'
+import {Box, Flex, jsx, NavLink} from 'theme-ui'
 import logo from '../images/logo.png'
-
 import MenuButton from './MenuButton'
 
 const Header = ({setMenuOpen, menuOpen, nav}) => (
@@ -32,6 +31,11 @@ const Header = ({setMenuOpen, menuOpen, nav}) => (
     </Flex>
     <Flex>
       <Flex>
+        <NavLink href="https://npmjs.com/package/ts-terraform">
+          <img src="https://badgen.net/npm/v/ts-terraform" alt="npm version" sx={{verticalAlign: 'middle'}} />
+        </NavLink>
+      </Flex>
+      <Box sx={{display: ['none', 'flex']}}>
         <NavLink href="https://github.com/ts-terraform/ts-terraform/actions">
           <img
             src="https://github.com/ts-terraform/ts-terraform/workflows/CI/badge.svg"
@@ -39,7 +43,7 @@ const Header = ({setMenuOpen, menuOpen, nav}) => (
             sx={{verticalAlign: 'middle'}}
           />
         </NavLink>
-      </Flex>
+      </Box>
       <Flex>
         <NavLink href="https://github.com/ts-terraform/ts-terraform">
           <svg
