@@ -1,4 +1,4 @@
-<p align="center"><img src="https://ts-terraform.dev/logo.png" alt="ts-terraform logo" /></p>
+<p align="center"><img src="https://ts-terraform.dev/logo.png" alt="ts-terraform logo" width="128" /></p>
 
 # ts-terraform
 
