@@ -1,6 +1,7 @@
 {
   "name": "@ts-terraform/config-prettier",
   "version": "0.1.0",
+  "description": "Prettier config for all @ts-terraform modules",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -27,5 +28,14 @@
   "funding": {
     "type": "GitHub",
     "url": "https://github.com/sponsors/jacobwgillespie"
+  },
+  "homepage": "https://ts-terraform.dev",
+  "keywords": [
+    "ts-terraform"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ts-terraform/ts-terraform.git",
+    "directory": "packages/@ts-terraform/config-typescript"
   }
 }
