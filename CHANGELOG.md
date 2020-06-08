@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.0 - 2020-06-08
+
+- Add `@ts-terraform/hcl` module for parsing HCL2
+
 ## v0.2.0 - 2020-06-07
 
 - New documentation site, NPM module metadata (descriptions, links, keywords)
