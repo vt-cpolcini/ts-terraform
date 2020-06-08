@@ -18,7 +18,7 @@ exports.sourceNodes = async ({actions, createContentDigest}) => {
     },
   })
 
-  const readmePaths = await globby([path.join(__dirname, '../packages/**/README.md')])
+  const readmePaths = await globby([path.join(__dirname, '../packages/**/README.md'), '!**/node_modules/**'])
   for (const readmePath of readmePaths) {
     const contents = fs.readFileSync(readmePath)
     const id = path.relative(path.join(__dirname, '../packages'), path.dirname(readmePath))
