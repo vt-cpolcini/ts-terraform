@@ -60,7 +60,7 @@ exports.createPages = async ({actions, graphql, reporter}) => {
   }
   result.data.allMdx.edges.forEach(({node}) => {
     createPage({
-      path: `modules/${node.parent.id.replace(/^@/g, '')}`,
+      path: `modules/${node.parent.id.replace(/^@/g, '')}/`,
       component: moduleReadmeTemplate,
       context: {
         parentID: node.parent.id,
