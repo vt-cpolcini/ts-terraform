@@ -20,7 +20,7 @@ const Layout = (props) => {
 
   useEffect(() => {
     setupTwoslashHovers()
-  }, [])
+  }, [props.children])
 
   const fullwidth = props.pageContext.frontmatter && props.pageContext.frontmatter.fullwidth // || props.location.pathname === '/'
 
