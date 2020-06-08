@@ -111,3 +111,7 @@ pre:hover data-lsp {
   font-size: 14px;
   white-space: pre-wrap;
 }
+
+#content table td:first-child {
+  white-space: nowrap;
+}
