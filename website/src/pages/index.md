@@ -11,21 +11,12 @@ You can either install `ts-terraform`, which contains and re-exports all other m
 ```shell
 $ yarn add ts-terraform
 
+$ yarn add @ts-terraform/hcl
 $ yarn add @ts-terraform/provider
 ```
 
 ## Packages
 
 - `ts-terraform` - root package that contains all other packages
+- `@ts-terraform/hcl` - HCL2 parser, powered by Wasm
 - `@ts-terraform/provider` - Terraform Provider gRPC client
-
-## Development
-
-To prepare this repository for development:
-
-```bash
-$ yarn install
-$ yarn build
-$ yarn lint
-$ yarn watch
-```
