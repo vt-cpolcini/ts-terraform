@@ -19,7 +19,7 @@
     "fmt": "mrl check --fix && prettier --write './**/*.{js,md,ts}'",
     "fmt:check": "mrl check && prettier --check './**/*.{js,md,ts}'",
     "lint": "eslint . --ext .ts",
-    "prebuild": "TSBUILD=true mrl check --fix",
+    "prebuild": "TSBUILD=true mrl check --fix && lerna run prebuild",
     "watch": "yarn build -w"
   },
   "workspaces": [

@@ -6,8 +6,5 @@
   "go.testEnvVars": {
     "GOARCH": "wasm",
     "GOOS": "js"
-  },
-  "npm.bin": "yarn",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  }
 }

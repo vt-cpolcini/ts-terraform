@@ -7,6 +7,9 @@
       "path": "packages/@ts-terraform/config-prettier"
     },
     {
+      "path": "packages/@ts-terraform/hcl"
+    },
+    {
       "path": "packages/@ts-terraform/provider"
     },
     {
