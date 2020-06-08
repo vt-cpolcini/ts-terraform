@@ -74,7 +74,7 @@ const Layout = (props) => {
                 px: fullwidth ? 0 : 3,
               }}
             >
-              <div sx={{minHeight: 'calc(100vh - 128px)'}}>{props.children}</div>
+              {props.children}
             </main>
           </div>
         </Box>
