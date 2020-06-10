@@ -1,30 +1,16 @@
 // @ts-check
 
-const remarkPlugins = [
-  {resolve: 'gatsby-remark-autolink-headers', options: {icon: false}},
-  {resolve: 'gatsby-remark-shiki-twoslash', options: {theme: __dirname + '/src/dark-theme.json'}},
-]
-
 module.exports = {
   siteMetadata: {
     title: 'ts-terraform',
+    description: 'TypeScript tooling for interacting with Terraform',
     author: '@jacobwgillespie',
+    github: 'https://github.com/ts-terraform/ts-terraform',
+    githubActions: 'CI',
+    npm: 'ts-terraform',
+    logo: '/logo.png',
   },
   plugins: [
-    'gatsby-plugin-theme-ui',
-    'gatsby-plugin-react-helmet',
-
-    'gatsby-transformer-sharp',
-    'gatsby-plugin-sharp',
-
-    {
-      resolve: 'gatsby-plugin-mdx',
-      options: {
-        extensions: ['.mdx', '.md'],
-        gatsbyRemarkPlugins: remarkPlugins,
-      },
-    },
-
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -33,29 +19,6 @@ module.exports = {
       },
     },
 
-    'gatsby-plugin-catch-links',
-
-    // {
-    //   resolve: 'gatsby-plugin-manifest',
-    //   options: {
-    //     name: 'gatsby-starter-default',
-    //     short_name: 'starter',
-    //     start_url: '/',
-    //     background_color: '#663399',
-    //     theme_color: '#663399',
-    //     display: 'minimal-ui',
-    //     icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
-    //   },
-    // },
-
-    // {
-    //   resolve: 'gatsby-transformer-remark',
-    //   options: {
-    //     plugins: remarkPlugins,
-    //   },
-    // },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // 'gatsby-plugin-offline',
+    {resolve: 'gatsby-theme-clean-docs', options: {}},
   ],
 }
