@@ -18577,4 +18577,3 @@ export type AwsProvider = Provider<ProviderConfig>
 
 const _createProvider = createProviderFactory<AwsProvider>()
 export const createProvider = () => _createProvider(path.join(__dirname, '../.providers/aws-2.66.0'))
-

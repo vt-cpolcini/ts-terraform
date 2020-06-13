@@ -3,6 +3,9 @@
   "version": "0.4.0",
   "description": "TypeScript client for Terraform providers (via gRPC)",
   "license": "MIT",
+  "bin": {
+    "ts-terraform-generate-provider": "./dist/bin/ts-terraform-generate-provider.js"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -10,9 +13,6 @@
     "generated",
     "tfplugin5.proto"
   ],
-  "bin": {
-    "ts-terraform-generate-provider": "./dist/bin/ts-terraform-generate-provider.js"
-  },
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo",
