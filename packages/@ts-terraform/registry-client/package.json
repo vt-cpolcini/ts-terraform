@@ -1,6 +1,6 @@
 {
   "name": "@ts-terraform/registry-client",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Terraform Registry client",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -26,7 +26,7 @@
     "unzipper": "^0.10.11"
   },
   "devDependencies": {
-    "@ts-terraform/config-typescript": "^0.3.0",
+    "@ts-terraform/config-typescript": "^0.4.0",
     "@types/fs-extra": "^9.0.1",
     "@types/node": "^12",
     "@types/unzipper": "^0.10.3",
