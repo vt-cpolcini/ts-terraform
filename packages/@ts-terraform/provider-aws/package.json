@@ -1,42 +1,32 @@
 {
-  "name": "@ts-terraform/provider",
+  "name": "@ts-terraform/provider-aws",
   "version": "0.3.0",
-  "description": "TypeScript client for Terraform providers (via gRPC)",
+  "description": "TypeScript client for the AWS Terraform provider",
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "generated",
-    "tfplugin5.proto"
+    "dist"
   ],
-  "bin": {
-    "ts-terraform-generate-provider": "./dist/bin/ts-terraform-generate-provider.js"
-  },
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo",
-    "generate": "./generate-client.sh",
+    "generate": "ts-terraform-generate-provider aws 2.66.0 > src/index.ts",
+    "postinstall": "ts-terraform-fetch-provider aws 2.66.0",
     "watch": "tsc -b -w"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.0.4",
-    "execa": "^4.0.2",
-    "fast-case": "^1.4.0",
-    "google-auth-library": "^6.0.1",
-    "msgpack": "^1.0.3",
-    "prettier": "^2.0.5",
-    "protobufjs": "^6.9.0",
+    "@ts-terraform/provider": "^0.3.0",
+    "@ts-terraform/registry-client": "^0.3.0",
+    "hasha": "^5.2.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@ts-terraform/config-typescript": "^0.3.0",
-    "@types/msgpack": "^0.0.30",
     "@types/node": "^12",
-    "@types/prettier": "^2.0.1",
     "typescript": "^3.9.3"
   },
   "funding": {
@@ -45,14 +35,11 @@
   },
   "homepage": "https://ts-terraform.dev",
   "keywords": [
-    "ts-terraform",
-    "terraform",
-    "terraform-providers",
-    "grpc"
+    "ts-terraform"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/ts-terraform/ts-terraform.git",
-    "directory": "packages/@ts-terraform/provider"
+    "directory": "packages/@ts-terraform/ts-terraform"
   }
 }

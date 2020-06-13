@@ -1,5 +1,6 @@
 *.log
 *.tsbuildinfo
+.providers
 dist
 node_modules
 tmp

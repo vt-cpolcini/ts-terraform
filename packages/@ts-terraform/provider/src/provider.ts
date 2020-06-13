@@ -12,7 +12,7 @@ import {
 } from './cty-types'
 import {throwDiagnosticErrors} from './errors'
 import {newRPC} from './rpc'
-import {asCode, ObjectProperties, ObjectType, StringKeyOf, T, validateOrThrow} from './type-system'
+import {ObjectProperties, ObjectType, StringKeyOf, validateOrThrow} from './type-system'
 
 const decoder = new TextDecoder()
 const encoder = new TextEncoder()
@@ -284,38 +284,19 @@ export class Provider<
   }
 }
 
-export function createProviderFactory<ProviderConfig extends ProviderConfigType>(): (
+export function createProviderFactory<ProviderType extends Provider>(): (
   binary: string,
   opts?: Options,
-) => Promise<Provider<ProviderConfig>> {
+) => Promise<ProviderType> {
   return async (binary: string, opts: Options = {}) => {
     const {subprocess, rpc} = await newRPC(binary, opts)
     const schema = await rpc.getSchema({})
-    return new Provider<ProviderConfig>({
+    return new Provider({
       subprocess,
       rpc,
       schema,
-    })
+    }) as ProviderType
   }
 }
 
 export const createProvider = createProviderFactory()
-
-export function codegen(provider: Provider): string {
-  const providerConfig = asCode(
-    T.object({
-      providerSchema: provider.providerSchema,
-      dataSourceSchemas: T.object(provider.dataSourceSchemas),
-      resourceSchemas: T.object(provider.resourceSchemas),
-      dataSourceStateSchemas: T.object(provider.dataSourceStateSchemas),
-      resourceStateSchemas: T.object(provider.resourceStateSchemas),
-    }),
-  )
-
-  return `import {Provider} from '@ts-terraform/provider'
-
-interface ProviderConfig extends ProviderConfigType ${providerConfig}
-
-export const createProvider = createProviderFactory<ProviderConfig>()
-`
-}

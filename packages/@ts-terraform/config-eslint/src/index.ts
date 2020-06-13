@@ -119,6 +119,7 @@ const eslintConfig: Linter.BaseConfig = {
     'node/no-unsupported-features/node-builtins': ['error', {version: '>=12.0.0'}],
     'node/no-extraneous-import': 'off',
     'node/no-path-concat': 'error',
+    'node/shebang': 'off',
 
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
