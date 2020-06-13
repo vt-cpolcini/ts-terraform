@@ -12,7 +12,7 @@
     "build": "tsc -b",
     "clean": "rm -rf dist *.tsbuildinfo",
     "generate": "ts-terraform-generate-provider aws 2.66.0 > src/index.ts",
-    "postinstall": "ts-terraform-fetch-provider aws 2.66.0",
+    "postinstall": "ts-terraform-fetch-provider aws 2.66.0 || echo 'Failed to download Terraform provider'",
     "watch": "tsc -b -w"
   },
   "publishConfig": {
