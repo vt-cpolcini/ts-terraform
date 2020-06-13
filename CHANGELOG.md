@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.4.0 - 2020-06-13
+
+- Add `@ts-terraform/registry-client` module for interacting with the Terraform Registry
+- Add `@ts-terraform/provider-aws`, a code-generated type-safe client library for the Terraform AWS provider
+
 ## v0.3.0 - 2020-06-08
 
 - Add `@ts-terraform/hcl` module for parsing HCL2
