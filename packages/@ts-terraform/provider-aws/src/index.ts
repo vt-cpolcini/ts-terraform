@@ -1,4 +1,4 @@
-import {createProviderFactory, Provider, ProviderConfigType} from '@ts-terraform/provider'
+import {createProviderFactory, Provider, ProviderConfigType, Options} from '@ts-terraform/provider'
 import path from 'path'
 
 interface ProviderConfig extends ProviderConfigType {
@@ -18576,4 +18576,4 @@ interface ProviderConfig extends ProviderConfigType {
 export type AwsProvider = Provider<ProviderConfig>
 
 const _createProvider = createProviderFactory<AwsProvider>()
-export const createProvider = () => _createProvider(path.join(__dirname, '../.providers/aws-2.66.0'))
+export const createProvider = (opts: Options = {}) => _createProvider(path.join(__dirname, '../.providers/aws-2.66.0'), opts)
