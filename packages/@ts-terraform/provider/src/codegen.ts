@@ -1,10 +1,10 @@
 import {Provider} from './provider'
-import {asCode, T} from './type-system'
 import prettier from 'prettier'
 import * as fastCase from 'fast-case'
+import * as T from 'schema-types'
 
 export function codegen(provider: Provider, name: string, binaryPath: string): string {
-  const providerConfig = asCode(
+  const providerConfig = T.code(
     T.object({
       providerSchema: provider.providerSchema,
       dataSourceSchemas: T.object(provider.dataSourceSchemas),

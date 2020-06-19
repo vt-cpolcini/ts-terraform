@@ -1,10 +1,12 @@
 import execa from 'execa'
+import * as T from 'schema-types'
 import {TextDecoder, TextEncoder} from 'util'
 import {tfplugin5} from '../generated/client'
 import {
   fromDynamic,
   Kind,
   optionalsToNulls,
+  StringKeyOf,
   tfSchemasRecordToSchemaTypeRecord,
   tfSchemaToSchemaType,
   toDynamic,
@@ -12,7 +14,6 @@ import {
 } from './cty-types'
 import {throwDiagnosticErrors} from './errors'
 import {newRPC} from './rpc'
-import {ObjectProperties, ObjectType, StringKeyOf, validateOrThrow} from './type-system'
 
 const decoder = new TextDecoder()
 const encoder = new TextEncoder()
@@ -48,13 +49,13 @@ export class Provider<
   #rpc: tfplugin5.Provider
   #subprocess: execa.ExecaChildProcess
 
-  #providerSchema: ObjectType<ObjectProperties>
+  #providerSchema: T.ObjectType
 
-  #dataSourceSchemas: Record<string, ObjectType<ObjectProperties>>
-  #resourceSchemas: Record<string, ObjectType<ObjectProperties>>
+  #dataSourceSchemas: Record<string, T.ObjectType>
+  #resourceSchemas: Record<string, T.ObjectType>
 
-  #dataSourceStateSchemas: Record<string, ObjectType<ObjectProperties>>
-  #resourceStateSchemas: Record<string, ObjectType<ObjectProperties>>
+  #dataSourceStateSchemas: Record<string, T.ObjectType>
+  #resourceStateSchemas: Record<string, T.ObjectType>
 
   constructor({rpc, subprocess, schema}: Internals) {
     this.#rpc = rpc
@@ -73,23 +74,23 @@ export class Provider<
     this.#resourceStateSchemas = tfSchemasRecordToSchemaTypeRecord(schema.resourceSchemas, Kind.ATTRS)
   }
 
-  get providerSchema(): ObjectType<ObjectProperties> {
+  get providerSchema(): T.ObjectType {
     return this.#providerSchema
   }
 
-  get dataSourceSchemas(): Record<string, ObjectType<ObjectProperties>> {
+  get dataSourceSchemas(): Record<string, T.ObjectType> {
     return this.#dataSourceSchemas
   }
 
-  get resourceSchemas(): Record<string, ObjectType<ObjectProperties>> {
+  get resourceSchemas(): Record<string, T.ObjectType> {
     return this.#resourceSchemas
   }
 
-  get dataSourceStateSchemas(): Record<string, ObjectType<ObjectProperties>> {
+  get dataSourceStateSchemas(): Record<string, T.ObjectType> {
     return this.#dataSourceStateSchemas
   }
 
-  get resourceStateSchemas(): Record<string, ObjectType<ObjectProperties>> {
+  get resourceStateSchemas(): Record<string, T.ObjectType> {
     return this.#resourceStateSchemas
   }
 
@@ -129,7 +130,7 @@ export class Provider<
   }
 
   async configure(config: ProviderConfig['providerSchema']): Promise<tfplugin5.Configure.Response> {
-    validateOrThrow(this.#providerSchema, config)
+    T.assert(this.#providerSchema, config)
 
     const {preparedConfig}: tfplugin5.PrepareProviderConfig.Response = await this.#rpc
       .prepareProviderConfig({config: toDynamic(optionalsToNulls(config, this.#providerSchema))})
@@ -178,7 +179,7 @@ export class Provider<
     plannedPrivate: Record<string, unknown>
     requiresReplace: tfplugin5.IAttributePath[]
   }> {
-    const resourceSchema: ObjectType<ObjectProperties> | undefined = this.#resourceStateSchemas[typeName]
+    const resourceSchema: T.ObjectType | undefined = this.#resourceStateSchemas[typeName]
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (resourceSchema === undefined) throw new TypeError(`Invalid resource type ${typeName}`)
@@ -210,12 +211,12 @@ export class Provider<
     typeName: Name,
     config: ProviderConfig['dataSourceSchemas'][Name],
   ): Promise<ProviderConfig['dataSourceStateSchemas'][Name]> {
-    const dataSourceSchema: ObjectType<ObjectProperties> | undefined = this.#dataSourceSchemas[typeName]
+    const dataSourceSchema: T.ObjectType | undefined = this.#dataSourceSchemas[typeName]
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (dataSourceSchema === undefined) throw new TypeError(`Invalid data source type ${typeName}`)
 
-    validateOrThrow(dataSourceSchema, config)
+    T.assert(dataSourceSchema, config)
 
     const dynamicConfig = toDynamic(optionalsToNulls(config, dataSourceSchema))
     const res = await this.#rpc.readDataSource({typeName, config: dynamicConfig}).then(throwDiagnosticErrors)
@@ -231,7 +232,7 @@ export class Provider<
     currentState: ProviderConfig['resourceStateSchemas'][Name],
     options: {private?: Record<string, unknown>} = {},
   ): Promise<ProviderConfig['resourceStateSchemas'][Name] | undefined> {
-    const resourceSchema: ObjectType<ObjectProperties> | undefined = this.#resourceStateSchemas[typeName]
+    const resourceSchema: T.ObjectType | undefined = this.#resourceStateSchemas[typeName]
 
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (resourceSchema === undefined) throw new TypeError(`Invalid resource type ${typeName}`)

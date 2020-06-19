@@ -1,18 +1,13 @@
 import msgpack from 'msgpack'
+import * as T from 'schema-types'
 import {inspect, TextDecoder, TextEncoder} from 'util'
 import {tfplugin5} from '../generated/client'
-import {
-  ArrayType,
-  BooleanType,
-  keysOf,
-  MapType,
-  NumberType,
-  ObjectProperties,
-  ObjectType,
-  SchemaType,
-  StringType,
-  T,
-} from './type-system'
+
+export type StringKeyOf<T> = Extract<keyof T, string>
+
+export function keysOf<T>(value: T): StringKeyOf<T>[] {
+  return Object.keys(value) as StringKeyOf<T>[]
+}
 
 const decoder = new TextDecoder()
 const encoder = new TextEncoder()
@@ -29,36 +24,36 @@ export type CtyTypeSchema =
 
 /** Maps from the cty type schema to type system schema */
 type CtyToSchemaType<T extends CtyTypeSchema> = T extends 'bool'
-  ? BooleanType
+  ? T.BooleanType
   : T extends 'number'
-  ? NumberType
+  ? T.NumberType
   : T extends 'string'
-  ? StringType
+  ? T.StringType
   : T extends ['list', infer U]
   ? U extends CtyTypeSchema
-    ? ArrayType<CtyToSchemaType<U>>
+    ? T.ArrayType<CtyToSchemaType<U>>
     : never
   : T extends ['map', infer U]
   ? U extends CtyTypeSchema
-    ? MapType<CtyToSchemaType<U>>
+    ? T.RecordType<CtyToSchemaType<U>>
     : never
   : T extends ['object', infer U]
   ? U extends {[name: string]: CtyTypeSchema}
-    ? ObjectType<{[K in keyof U]: CtyToSchemaType<U[K]>}>
+    ? T.ObjectType<{[K in keyof U]: CtyToSchemaType<U[K]>}>
     : never
   : T extends ['set', infer U]
   ? U extends CtyTypeSchema
-    ? ArrayType<CtyToSchemaType<U>>
+    ? T.ArrayType<CtyToSchemaType<U>>
     : never
   : never
 
-export function decodeCtyType(input: Uint8Array): SchemaType {
+export function decodeCtyType(input: Uint8Array): T.SchemaType {
   const typeMeta = JSON.parse(decoder.decode(input)) as CtyTypeSchema
-  return ctyToType(typeMeta) as SchemaType
+  return ctyToType(typeMeta) as T.SchemaType
 }
 
 export function ctyToType<T extends CtyTypeSchema>(schema: T): CtyToSchemaType<T>
-export function ctyToType(schema: CtyTypeSchema): SchemaType {
+export function ctyToType(schema: CtyTypeSchema): T.SchemaType {
   switch (schema) {
     case 'any':
       throw new Error('unknown type')
@@ -75,14 +70,13 @@ export function ctyToType(schema: CtyTypeSchema): SchemaType {
     default:
       switch (schema[0]) {
         case 'list':
-          return T.array(ctyToType(schema[1]))
+          return T.array(ctyToType(schema[1]) as T.SchemaType)
 
         case 'map':
-          // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
-          return T.map(ctyToType(schema[1]))
+          return T.record(ctyToType(schema[1]) as T.SchemaType)
 
         case 'set':
-          return T.array(ctyToType(schema[1]))
+          return T.array(ctyToType(schema[1]) as T.SchemaType)
 
         case 'object': {
           const innerTypes = keysOf(schema[1]).reduce(
@@ -133,7 +127,7 @@ export function fromRawState<T = unknown>(value: tfplugin5.IRawState | null | un
   return JSON.parse(decoder.decode(value.json))
 }
 
-export function optionalsToNulls(value: object, schema: ObjectType<ObjectProperties>): Record<string, unknown> {
+export function optionalsToNulls(value: object, schema: T.ObjectType): Record<string, unknown> {
   return Object.keys(schema.properties).reduce<Record<string, unknown>>((obj, key) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     obj[key] = (value as Record<string, unknown>)[key] ?? null
@@ -146,7 +140,7 @@ export enum Kind {
   ATTRS = 'ATTRS',
 }
 
-function nestedBlockToSchemaType(nestedBlock: tfplugin5.Schema.INestedBlock, kind: Kind): SchemaType {
+function nestedBlockToSchemaType(nestedBlock: tfplugin5.Schema.INestedBlock, kind: Kind): T.SchemaType {
   if (!nestedBlock.block) {
     throw new Error('Unable to read nested block schema')
   }
@@ -173,8 +167,7 @@ function nestedBlockToSchemaType(nestedBlock: tfplugin5.Schema.INestedBlock, kin
 
     // Map of string to blocks
     case tfplugin5.Schema.NestedBlock.NestingMode.MAP:
-      // eslint-disable-next-line unicorn/no-fn-reference-in-iterator
-      return T.map(innerSchema)
+      return T.record(innerSchema)
 
     // Single item, will be marked as optional
     case tfplugin5.Schema.NestedBlock.NestingMode.GROUP:
@@ -182,9 +175,9 @@ function nestedBlockToSchemaType(nestedBlock: tfplugin5.Schema.INestedBlock, kin
   }
 }
 
-export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): ObjectType<ObjectProperties> {
+export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): T.ObjectType {
   const schemaAttributes = block.attributes ?? []
-  const attrs: ObjectProperties = {}
+  const attrs: T.ObjectProperties = {}
 
   for (const attribute of schemaAttributes) {
     if (!attribute.type) {
@@ -223,7 +216,7 @@ export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): O
   return T.object(attrs)
 }
 
-export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): ObjectType<ObjectProperties> {
+export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): T.ObjectType {
   if (!schema.block) {
     throw new TypeError('Could not read schema')
   }
@@ -234,8 +227,8 @@ export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): Obj
 export function tfSchemasRecordToSchemaTypeRecord(
   schemas: Record<string, tfplugin5.ISchema>,
   kind: Kind,
-): Record<string, ObjectType<ObjectProperties>> {
-  const map: Record<string, ObjectType<ObjectProperties>> = {}
+): Record<string, T.ObjectType> {
+  const map: Record<string, T.ObjectType> = {}
 
   for (const [name, schema] of Object.entries(schemas)) {
     map[name] = tfSchemaToSchemaType(schema, kind)

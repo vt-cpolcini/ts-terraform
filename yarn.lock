@@ -7154,6 +7154,11 @@ saxes@^5.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
+schema-types@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/schema-types/-/schema-types-2.1.0.tgz#4fb705435a907cda1695b3df33e7f9e79d2fa61b"
+  integrity sha512-uN6WJL47u7UPlzpASAQMgKrdMRBXmp4QRroxv8GDuidN0v5SeYPbXP0D1AlB0SDv0UmWrv0+J7nMW5LsgqKDaw==
+
 "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0, semver@^5.7.0, semver@^5.7.1:
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.1.tgz#a954f931aeba508d307bbf069eff0c01c96116f7"

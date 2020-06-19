@@ -30,6 +30,7 @@
     "msgpack": "^1.0.3",
     "prettier": "^2.0.5",
     "protobufjs": "^6.9.0",
+    "schema-types": "^2.1.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
