@@ -175,9 +175,25 @@ function nestedBlockToSchemaType(nestedBlock: tfplugin5.Schema.INestedBlock, kin
   }
 }
 
-export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): T.ObjectType {
+function isUnconfigurable(attr: any) {
+  return attr.computed && !attr.hasOwnProperty('optional') && !attr.hasOwnProperty('required')
+}
+
+interface ObjectType extends T.ObjectType {
+  required?: string[]
+}
+
+interface SchemaType extends T.SchemaType<unknown> {
+  unconfigurable?: boolean
+}
+interface ObjectProperties {
+  [key: string]: SchemaType
+}
+
+export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): ObjectType {
   const schemaAttributes = block.attributes ?? []
-  const attrs: T.ObjectProperties = {}
+  const attrs: ObjectProperties = {}
+  const required: string[] = []
 
   for (const attribute of schemaAttributes) {
     if (!attribute.type) {
@@ -192,6 +208,10 @@ export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): T
 
     if (kind === Kind.ATTRS ? !attribute.required && !attribute.computed : attribute.optional || attribute.computed) {
       attrs[attribute.name] = T.optional(attrs[attribute.name])
+    }
+    if (attribute.required) required.push(attribute.name)
+    if (isUnconfigurable(attribute)) {
+      attrs[attribute.name].unconfigurable = true
     }
   }
 
@@ -212,8 +232,7 @@ export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): T
       }
     }
   }
-
-  return T.object(attrs)
+  return {...T.object(attrs), ...(required.length > 0 ? {required} : {})}
 }
 
 export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): T.ObjectType {
