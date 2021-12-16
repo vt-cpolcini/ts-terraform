@@ -99,10 +99,12 @@ export function toDynamic(value: unknown): tfplugin5.IDynamicValue {
 
 export function fromDynamic<T = unknown>(value: tfplugin5.IDynamicValue | null | undefined): T | null | undefined {
   if (!value) {
+    // @ts-ignore
     return value
   }
 
   if (!value.msgpack) {
+    // @ts-ignore
     return value.msgpack
   }
 
@@ -116,6 +118,7 @@ export function toRawState(value: unknown): tfplugin5.IRawState {
 
 export function fromRawState<T = unknown>(value: tfplugin5.IRawState | null | undefined): T | null | undefined {
   if (!value) {
+    // @ts-ignore
     return value
   }
 
@@ -179,7 +182,8 @@ function isUnconfigurable(attr: any) {
   return attr.computed && !attr.hasOwnProperty('optional') && !attr.hasOwnProperty('required')
 }
 
-interface ObjectType extends T.ObjectType {
+export interface ObjectType extends T.ObjectType {
+  attriutes?: string[]
   required?: string[]
 }
 
@@ -209,7 +213,10 @@ export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): O
     if (kind === Kind.ATTRS ? !attribute.required && !attribute.computed : attribute.optional || attribute.computed) {
       attrs[attribute.name] = T.optional(attrs[attribute.name])
     }
-    if (attribute.required) required.push(attribute.name)
+    if (attribute.required) {
+      console.log(attribute.name, required)
+      required.push(attribute.name)
+    }
     if (isUnconfigurable(attribute)) {
       attrs[attribute.name].unconfigurable = true
     }
@@ -232,10 +239,15 @@ export function blockToSchemaType(block: tfplugin5.Schema.IBlock, kind: Kind): O
       }
     }
   }
-  return {...T.object(attrs), ...(required.length > 0 ? {required} : {})}
+  const attributes = keysOf(attrs)
+  return {
+    ...T.object(attrs),
+    ...(required.length > 0 ? {required} : {}),
+    ...(attributes.length > 0 ? {attributes} : {}),
+  }
 }
 
-export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): T.ObjectType {
+export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): ObjectType {
   if (!schema.block) {
     throw new TypeError('Could not read schema')
   }
@@ -246,8 +258,8 @@ export function tfSchemaToSchemaType(schema: tfplugin5.ISchema, kind: Kind): T.O
 export function tfSchemasRecordToSchemaTypeRecord(
   schemas: Record<string, tfplugin5.ISchema>,
   kind: Kind,
-): Record<string, T.ObjectType> {
-  const map: Record<string, T.ObjectType> = {}
+): Record<string, ObjectType> {
+  const map: Record<string, ObjectType> = {}
 
   for (const [name, schema] of Object.entries(schemas)) {
     map[name] = tfSchemaToSchemaType(schema, kind)
